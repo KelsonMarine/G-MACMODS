@@ -1,15 +1,15 @@
-# %%
-import sys,os,time,copy
-from calendar import isleap
+
+
+
 from magpy import mag0
 from magpy import mag_species
 from multiprocessing import Pool
 import numpy as np
 import pandas as pd
-
-from magpy.mag_util import generate_standard_runs,postprocess,get_mask,eez_mask,csv_from_pp,get_area
-
 # %%
+from matplotlib import pyplot as plt
+import seaborn as sns
+
 
 param_dict = {
     "output_path": "./output",
@@ -31,7 +31,7 @@ param_dict = {
     "gH_freq": 8,
     # -1 Turns off harvesting
     "mp_harvest_schedule": -1,
-    # 0 means to not limit the nitrogen just to possible upwelling 
+    # 0 means to not limit the nitrogen just to possible upwelling
     "mp_N_flux_limit": 0,
     # The deathrate (day^-1), this has a significant effect on the results
     "mp_spp_death": 0.01,
@@ -70,7 +70,7 @@ forcing = pd.DataFrame(
         "ylat": [43, 43],
         # This doesn't do anything in this single point case
         "xlon360": [250, 250],
-        "var": [0.1] * 12
+        "var": [0.1] * 2
     },
     index=pd.DatetimeIndex(["1/1/2003 00:00:00", "1/1/2004 00:00:00"]),
 )
@@ -87,9 +87,10 @@ for multiplier in [0.5, 1.0, 1.5]:
     plt.plot(results.index, results.B / 1e3)
 results
 
-# %%
-from matplotlib import pyplot as plt
-import seaborn as sns
+
+
+
+
 plt.plot(results.index, results.B / 1e3)
 plt.show()
 # sns.lineplot(results.reset_index(), x="date", y="B")
@@ -97,5 +98,6 @@ plt.show()
 
 # %%
 
+from magpy.mag_util import generate_standard_runs,postprocess,get_mask,eez_mask,csv_from_pp,get_area
 
-
+# %%

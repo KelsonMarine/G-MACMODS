@@ -541,13 +541,13 @@ class MAG0_base(object):
 
         # copy code
         code_dir = os.path.join(self.outdir,'code')
-        os.mkdir(code_dir)
+        # os.mkdir(code_dir)
         code_files = []
-        for localname in os.listdir(self.p['code_path']):
-            if localname.endswith('.f90') or localname.endswith('.py'):
-                code_files.append(localname)
-        for f in code_files:
-            shutil.copy(os.path.join(self.p['code_path'],f),os.path.join(code_dir,f))
+        # for localname in os.listdir(self.p['code_path']):
+        #     if localname.endswith('.f90') or localname.endswith('.py'):
+        #         code_files.append(localname)
+        # for f in code_files:
+        #     shutil.copy(os.path.join(self.p['code_path'],f),os.path.join(code_dir,f))
 
         # write option to txt and pickle
         self.p['run_label'] = self.run_label
