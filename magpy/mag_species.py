@@ -44,7 +44,7 @@ Sargassum = {
     'mp_spp_Gmax_cap': 0.2,       # [1/day]
     'mp_spp_PARs': 303.9/4.57,       # [W/m2]
     'mp_spp_PARc': 26./4.57,      # [W/m2]
-    'mp_spp_Q0': 25.0,            # initial Q [mg N/g(dry]
+    'mp_spp_Q0': 25.0,            # initial Q [mg N/g(dry)]
     'mp_spp_Qmin': 5.76,           # [mg N/g(dry)]
     'mp_spp_Qmax': 44.0,          # [mg N/g(dry)]
     'mp_spp_BtoSA': 1.0,          # Hmm not used right now???
@@ -83,15 +83,15 @@ Saccharina = {
     'mp_spp_BtoSA': 1.0,          # Hmm not used right now???
     'mp_spp_line_sep': 1.0,       # m
     'mp_spp_kcap_rate': 0.05 ,    # [1/day]
-    'mp_spp_Topt1': 10.0,         # [deg C]
-    'mp_spp_K1': 0.03,            # temp func slope 1
-    'mp_spp_Topt2': 15.0,         # [deg C]
+    'mp_spp_Topt1': 10, #10        # [deg C]
+    'mp_spp_K1': 0.03,            # temp func slope 1 #started at .03
+    'mp_spp_Topt2': 15, #15        # [deg C]
     'mp_spp_K2': 0.1,             # temp func slope 2
     'mp_spp_CD':0.5,             # drag coefficient (unitless)
     'mp_spp_dry_sa': 58.0,         # [g(dry)/m2]
     'mp_spp_dry_wet': 0.094,      # [g(dry)/g(wet)] % Not changed from the macrocystis values
     'mp_spp_E': 0.01,            # [d-1] % No info specific for Eucheuma
-    'mp_spp_seed': 50.0,          # initial biomass [g(dry)/m]
+    'mp_spp_seed': 7.0,          # initial biomass [g(dry)/m] #originally was 50.0, but we believed 7 was a more accurate estimate
     'mp_spp_death': 0.01,         # death rate [1/day]
 }
 Saccharina['mp_spp_Vmax'] = Saccharina['mp_spp_Vmax'] * Saccharina['mp_spp_dry_sa'] # umol N/g-DW/d  * g-DW/m2 = umol N/m2/d

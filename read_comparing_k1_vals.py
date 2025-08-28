@@ -1,0 +1,51 @@
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import pandas as pd
+
+#FOR 2019-2020 YEAR:
+df1 = pd.read_csv("../../code/model comparisons/k1 comparisons/2019-20/k1 = .01/uses_.01_for_k1_GMACMODS_output_2019-2020.csv")
+df2 = pd.read_csv("../../code/model comparisons/k1 comparisons/2019-20/k1 = .015/uses_.015_for_k1_GMACMODS_output_2019-2020.csv")
+df3 = pd.read_csv("../../code/model comparisons/k1 comparisons/2019-20/k1 = .02/uses_.02_for_k1_GMACMODS_output_2019-2020.csv")
+df4 = pd.read_csv("../../code/model comparisons/k1 comparisons/2019-20/k1 = .025/uses_.025_for_k1_GMACMODS_output_2019-2020.csv")
+df5 = pd.read_csv("../../code/model comparisons/k1 comparisons/2019-20/k1 = .03/uses_.03_for_k1_GMACMODS_output_2019-2020.csv")
+for df in [df1, df2, df3, df4, df5]:
+    df["date"] = pd.to_datetime(df["date"])
+    df.set_index("date", inplace = True)
+fig, ax = plt.subplots(figsize = (12, 6))
+ax.plot(df1.index, df1["biomass"], color = "red", label = "k1 = .01")
+ax.plot(df2.index, df2["biomass"], color = "orange", label = "k1 = .015")
+ax.plot(df3.index, df3["biomass"], color = "green", label = "k1 = .02")
+ax.plot(df4.index, df4["biomass"], color = "blue", label = "k1 = .025")
+ax.plot(df5.index, df5["biomass"], color = "purple", label = "k1 = .03")
+ax.xaxis.set_major_locator(mdates.MonthLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%Y"))
+plt.ylabel("g dw/ m")
+plt.title("biomass over time 2019-20")
+plt.legend()
+plt.grid()
+plt.savefig("../../code/model comparisons/k1 comparisons/2019-20/k1_graphed_2019-20.png")
+plt.show()
+
+#FOR 2020-2021 YEAR:
+df1 = pd.read_csv("../../code/model comparisons/k1 comparisons/2020-21/k1 = .01/uses_.01_for_k1_GMACMODS_output_2020-2021.csv")
+df2 = pd.read_csv("../../code/model comparisons/k1 comparisons/2020-21/k1 = .015/uses_.015_for_k1_GMACMODS_output_2020-2021.csv")
+df3 = pd.read_csv("../../code/model comparisons/k1 comparisons/2020-21/k1 = .02/uses_.02_for_k1_GMACMODS_output_2020-2021.csv")
+df4 = pd.read_csv("../../code/model comparisons/k1 comparisons/2020-21/k1 = .025/uses_.025_for_k1_GMACMODS_output_2020-2021.csv")
+df5 = pd.read_csv("../../code/model comparisons/k1 comparisons/2020-21/k1 = .03/uses_.03_for_k1_GMACMODS_output_2020-2021.csv")
+for df in [df1, df2, df3, df4, df5]:
+    df["date"] = pd.to_datetime(df["date"])
+    df.set_index("date", inplace = True)
+fig, ax = plt.subplots(figsize = (12, 6))
+ax.plot(df1.index, df1["biomass"], color = "red", label = "k1 = .01")
+ax.plot(df2.index, df2["biomass"], color = "orange", label = "k1 = .015")
+ax.plot(df3.index, df3["biomass"], color = "green", label = "k1 = .02")
+ax.plot(df4.index, df4["biomass"], color = "blue", label = "k1 = .025")
+ax.plot(df5.index, df5["biomass"], color = "purple", label = "k1 = .03")
+ax.xaxis.set_major_locator(mdates.MonthLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%Y"))
+plt.title("biomass over time 2020-21")
+plt.ylabel("g dw/ m")
+plt.legend()
+plt.grid()
+plt.savefig("../../code/model comparisons/k1 comparisons/2020-21/k1_graphed_2020-21.png")
+plt.show()

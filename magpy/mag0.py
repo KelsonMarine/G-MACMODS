@@ -249,7 +249,7 @@ def build_run_params(param_dict=None, **kwargs):
         'mp_spp_dry_sa': 58.,         # [g(dry)/m2]
         'mp_spp_dry_wet': 0.094,      # [g(dry)/g(wet)] % Not changed from the macrocystis values
         'mp_spp_E': 0.005,            # [d-1] % No info specific for Eucheuma
-        'mp_spp_seed': 50.0,          # initial biomass [g(dry)/m]
+        'mp_spp_seed': 7.0,          # initial biomass [g(dry)/m] #originally was 50.0, but we believed 7 was a more accurate estimate
         'mp_spp_death': 0.01,         # death rate [1/day]
 
         # harvest parameters
@@ -956,7 +956,7 @@ class gMACMODS(MAG0_base):
         return self.do_not_seed
 
     def init_harvest(self):
-        # set seeding day-of-year, for later refernce during harvest determination
+        # set seeding day-of-year, for later reference during harvest determination
 
         # why does harvest get determined by seeding? These names could be changed for clarity
 
@@ -1365,7 +1365,7 @@ def mag_calc(lat,lon,sst,par,chl,swh,mwp,cmag,NO3,nflux, # input arrays
                 gT = temp_lim(sst[i,j],params[mp_spp_Topt1],params[mp_spp_K1],
                      params[mp_spp_Topt2],params[mp_spp_K2])
 
-                # light limitation
+                # light limitation. Greta: A lot of these numbers look like they came from here https://marbl-ecosys.github.io/versions/latest_release/sci-guide/light-attenuation.html?highlight=light%20attenuation#
                 par_watts = par[i,j] * 2.515376387217542
                 # attentuation according to MARBL
                 chlmin = max(0.02,chl[i,j])
