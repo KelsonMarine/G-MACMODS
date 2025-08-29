@@ -1,9 +1,12 @@
 '''Third iteration of G-MACMODS for Popof AK for 2020. This version works better with dates/leap years and is less date-sensitive.
-Chlorophyll has correct coordinates (previously was an issue).'''
+Chlorophyll has correct coordinates (previously was an issue). The name of this file is actually wrong,  SST, PAR, and NO3 all vary
+between years (at least for 2019-20 and 2020-21) because there is the correct data for that, but chl, SWH, and MWP don't change between these years.'''
 
 
 import numpy as np
 import pandas as pd
+
+from read_SST_NOAA_buoy_KDAA2_data import start_year
 from utils import build_forcing, offset_data_year
 from magpy import mag0, mag_species
 from datetime import date
@@ -47,20 +50,24 @@ param_dict = {
 }
 input_dict = mag_species.Saccharina
 input_dict.update(param_dict)
-input_dict['mp_spp_seed'] = 7
+input_dict['mp_spp_seed'] = 7.0
 params = mag0.build_run_params(
     input_dict
 )
 
 MAKE_PLOTS = False
+#SST input file order:
+#for all SST, data is coming from this website: https://www.ndbc.noaa.gov/station_page.php?station=kdaa2
+#SST_2019: read_SST_NOAA_buoy_KDAA2_data.py -> Popof input data/kdaa2_2019_2019.parquet -> read_SST_2019_Popof_USEME.py -> Popof input data/2019-2019 SST processed.parquet
+#SST_2020: read_SST_NOAA_buoy_KDAA2_data.py -> Popof input data/kdaa2_2020_2020.parquet -> read_SST_2020_Popof_USEME.py -> Popof input data/2020-2020 SST processed.parquet
+#SST_2021: read_SST_NOAA_buoy_KDAA2_data.py -> Popof input data/kdaa2_2021_2021.parquet -> read_SST_2021_Popof_USEME.py -> Popof input data/2021-2021 SST processed.parquet
 
-
-
-#SST_2019 = pd.read_parquet("Popof input data/2019-2019 SST processed.parquet")
+#remember to only have 2019 and 2020 or 2020 and 2021 here, not all 3, and change two_years_SST accordingly
+SST_2019 = pd.read_parquet("Popof input data/2019-2019 SST processed.parquet")
 SST_2020 = pd.read_parquet("Popof input data/2020-2020 SST processed.parquet") #this is missing data after September, but that may be fine since no growing post September anyways, its interpolated for Sept-Decprint(SST_df)
 SST_2021 = pd.read_parquet("Popof input data/2021-2021 SST processed.parquet")
-
-two_years_SST = pd.concat([SST_2020, SST_2021])#.drop(columns = ["sea_surface_temp"]) #ignore_index=True
+all_years_SST = pd.concat([SST_2019, SST_2020, SST_2021])
+two_years_SST = all_years_SST[all_years_SST.index.year.isin([start_year, start_year + 1])]#.drop(columns = ["sea_surface_temp"]) #ignore_index=True
 if MAKE_PLOTS:
     plt.plot(two_years_SST.index, two_years_SST["WTMP"])
     plt.xlabel("dates")
@@ -69,6 +76,9 @@ if MAKE_PLOTS:
     plt.savefig("../Kodiak files/Plots/2020_SST_Popof_Plot.png")
     plt.show()
 print(two_years_SST.index.tz)
+
+#SWH input data file order:
+#https://maps.nrel.gov/marine-energy-atlas/data-viewer/download -> Kodiak_waves_new.csv -> read_SWH_Popof_new.py -> new_SWH_popof.parquet
 
 SWH_df = pd.read_parquet("Popof input data/new_SWH_popof.parquet")
 SWH = SWH_df["Significant Wave Height"]
@@ -81,7 +91,8 @@ if MAKE_PLOTS:
 print(SWH.index.tz)
 
 
-#SWH = .85 #in meters, this is from our data in prj_AM_UAF (link in comment at top)
+#MWP input data file order:
+#https://maps.nrel.gov/marine-energy-atlas/data-viewer/download -> Kodiak_waves_new.csv -> read_MWP_Popof_new.py -> new_MWP_popof.parquet
 
 MWP_df = pd.read_parquet("Popof input data/new_MWP_popof.parquet")
 MWP = MWP_df["Peak Period"]
@@ -93,7 +104,10 @@ if MAKE_PLOTS:
     plt.show()
 print(MWP.index.tz)
 
-#MWP = 2.87 #no unit given but I assume s^-1, this is from our data in prj_AM_UAF (link in comment at top)
+#chl input data files order:
+#data link: https://portal.aoos.org/#module-metadata/5d7b00c1-73c7-4861-af87-a7857c358d02/4779f835-7bd3-4f92-841a-e419c4e9e2c3
+#read_newchlorophyll.py ->creates a lst that I copied into a CSV file. The lst is also in read_chl_input_lst (if you want to see it), but I saved the file which was a CSV with two
+#columns, Date and Value. this csv (chl_data_Popof.csv) goes into -> read_chl_Popof_USETHIS.py -> chl_popof.parquet
 
 chlorophyll_df = pd.read_parquet("Popof input data/chl_popof.parquet")#using coordinates: lat=57.7, lon=-152
 chl = chlorophyll_df["chl_conc"]
@@ -106,6 +120,8 @@ if MAKE_PLOTS:
     plt.show()
 print(chl.index.tz)
 
+#PAR input data files order:
+#https://portal.aoos.org/#metadata/75407/station/data -> PAR-anchor-point-AK.csv ->read_PAR_PopofIsland.py -> PAR_popof.parquet
 
 PAR_df = pd.read_parquet("Popof input data/PAR_popof.parquet")
 PAR = PAR_df["surface_downwelling_photosynthetic_photon_flux_in_air_cm_time__sum_over_pt15m"]
@@ -118,6 +134,9 @@ if MAKE_PLOTS:
     plt.show()
 print(PAR.index.tz)
 
+#NO3 input data files order:
+#to get data, I used NOx graphs that were emailed from Michael Stekoll to Toby and me and used software that turns graphs into data points. I put the data points into CSV files.
+#CSV files (Kodiak files/env. inputs/NOx INPUTS/) -> read_NO3_math_PopofIsland.py -> NO3_popof.parquet
 
 NO3_df = pd.read_parquet("Popof input data/NO3_popof.parquet")#this data is quite spotty so this will probably create some questionable data but we only got some data points from Michael Stekoll
 NO3 = NO3_df["Nox"]
@@ -157,7 +176,7 @@ forcing_data = {
     # Pretty sure this is the ambient current, affects nitrogen uptake.
     # I think this is in m/s
     #"cmag": cmag_df["Speed (knots)"].iloc[[0, -1]],
-    "cmag": .025, #.025 is from eyeballing the Popof Island slides, refine later
+    "cmag": .025, #.025 is from eyeballing the Popof Island slides in shared google drive, refine later
     # Nitrate concentration. I think it's in concentration (mol/L)
     "no3": NO3,
     #I think this is nitrogen flux but it may be nutrient flux
@@ -264,20 +283,20 @@ biomass_kg_m = biomass_kg_m2 * farm_size / farm_grow_line #converts to kg/m
 plt.plot(results.index, biomass_kg_m, color = "blue")
 
 #this plots are where the Stekoll growth was at these times (based off the graph of 2023 in the Stekoll paper)
-plt.plot(line3_df.index, value3, color = "red")
-plt.plot(line4_df.index, value4, color = "red")
-plt.plot(line5_df.index, value5, color = "red")
-plt.plot(line6_df.index, value6, color = "red")
-plt.plot(line7_df.index, value7, color = "red")
-plt.plot(line8_df.index, value8, color = "red")
-plt.plot(line9_df.index, value9, color = "red")
+# plt.plot(line3_df.index, value3, color = "red")
+# plt.plot(line4_df.index, value4, color = "red")
+# plt.plot(line5_df.index, value5, color = "red")
+# plt.plot(line6_df.index, value6, color = "red")
+# plt.plot(line7_df.index, value7, color = "red")
+# plt.plot(line8_df.index, value8, color = "red")
+# plt.plot(line9_df.index, value9, color = "red")
 
 plt.grid()
 plt.xlabel("time")
 plt.ylabel("kg of biomass/ m")
 plt.title("Biomass estimates Popof Island, AK, 0")
 #plt.yscale("log")
-#plt.savefig("../../code/model comparisons/2020/output with new SST data/GMACMODS_output_2020-2021.png")
+#plt.savefig("../../code/model comparisons/2020/output with new SST data/GMACMODS_output_2019-2020.png")
 fig,axes = plt.subplots(3,2,sharex = True)
 fig.set_size_inches(12, 12)
 env_names = ["sst", "par", "chl", "swh", "mwp", "no3"]
@@ -286,11 +305,11 @@ axes = axes.flatten()
 for ax,name in zip(axes,env_names):
     ax.plot(results.index, forcing.loc[results.index,name])
     ax.set_title(name)
-#fig.savefig("../../code/model comparisons/forcing_plots.png")
+fig.savefig(f"../../code/model comparisons/forcing_plots_{start_year}-{start_year + 1}.png")
 plt.show()
 
 df = pd.DataFrame({"date": results.index, "biomass": biomass_kg_m * 1e3})
-#df.to_csv("../../code/model comparisons/2020/output with new SST data/GMACMODS_output_2020-2021.csv", index = False)
+df.to_csv(f"../../code/model comparisons/{start_year + 1}/output with new SST data/GMACMODS_output_{start_year}-{start_year + 1}.csv", index = False)
 print("Done")
 # %%
 

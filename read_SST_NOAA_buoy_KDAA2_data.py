@@ -45,3 +45,4 @@ df = get_buoy_multiple_years(buoy_name, start_year, last_year)
 print(df)
 
 df.to_parquet(f"Popof input data/{buoy_name}_{start_year}_{last_year}.parquet")
+#FOR DEB, do df to csv here and save it to the place where the DEB model reads it in from

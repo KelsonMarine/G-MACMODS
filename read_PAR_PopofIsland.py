@@ -14,6 +14,7 @@ df = df.set_index("time")
 plt.plot(df.index, df)
 plt.show()
 df = df["surface_downwelling_photosynthetic_photon_flux_in_air_cm_time__sum_over_pt15m"]
+print(df.index)
 #df_2018 = df[df.index.year == SAMPLED_YEAR]
 #df_2018["PAR_15min"] = df_2018["surface_downwelling_photosynthetic_photon_flux_in_air_cm_time__sum_over_pt15m"]
 #PAR_series = df_2018["PAR_15min"]#currently every 15 mins

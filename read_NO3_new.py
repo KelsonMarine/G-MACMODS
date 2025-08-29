@@ -1,4 +1,5 @@
-'''Used data from https://www.ncei.noaa.gov/access/world-ocean-database-select/bin/dbsearch.pl with
+''' I didn't end up using this file anywhere.
+Used data from https://www.ncei.noaa.gov/access/world-ocean-database-select/bin/dbsearch.pl with
 Longitude from -150.3296 to -129.6753; Latitude from 60.6226 to 46.8237
 and datasets: OSD,CTD,XBT,MBT,PFL,DRB,MRB,APB,UOR,SUR,GLD. I averaged the top 20 m'
 I used https://geodesy.noaa.gov/library/pdfs/Special_Publication_No_281.pdf for water density in Yakutat (1.020 approx.)

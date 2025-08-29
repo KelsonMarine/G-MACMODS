@@ -1,4 +1,4 @@
-'''Compares the DEB model and G-MACMODS for two different years (the SST data is different for the two years, but the other parameters are constant).'''
+'''Compares the DEB model and G-MACMODS for two different years (the SST, PAR, and NOx data is different for the two years, but the other parameters are constant).'''
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import savefig
