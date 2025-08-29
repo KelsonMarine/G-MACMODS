@@ -50,7 +50,7 @@ param_dict = {
 }
 input_dict = mag_species.Saccharina
 input_dict.update(param_dict)
-input_dict['mp_spp_seed'] = 7.0
+input_dict['mp_spp_seed'] = 7
 params = mag0.build_run_params(
     input_dict
 )
@@ -202,37 +202,37 @@ print(forcing.head())
 #     plt.plot(results.index, results.B / 1e3, color = "orange") #kg per m^2
 
 #SENSITIVITY ANALYSIS
+new_forcing = forcing.copy()
+new_forcing["mwp"] += 0
+growth_model = mag0.MAG0(params, new_forcing)
+results = growth_model.compute()
+print(results.head())
+plt.plot(results.index, results.B / 1e3, color = "green", label = "original", linewidth = 2) #kg per m^2 linewidth = 2.75,
+
+new_forcing = forcing.copy()
+new_forcing["mwp"] *= 1.2
+growth_model = mag0.MAG0(params, new_forcing)
+results = growth_model.compute()
+print(results.head())
+plt.plot(results.index, results.B / 1e3, color = "purple", label = "*1.2") #kg per m^2
+
+new_forcing = forcing.copy()
+new_forcing["mwp"] *= 1.5
+growth_model = mag0.MAG0(params, new_forcing)
+results = growth_model.compute()
+print(results.head())
+plt.plot(results.index, results.B / 1e3, color = "orange", label = "1.5x") #kg per m^2
+
 # new_forcing = forcing.copy()
-# new_forcing["sst"] += 0
+# new_forcing[""] *= 1.5
 # growth_model = mag0.MAG0(params, new_forcing)
 # results = growth_model.compute()
 # print(results.head())
-# plt.plot(results.index, results.B / 1e3, color = "green", label = "original") #kg per m^2 linewidth = 2.75,
-#
-# new_forcing = forcing.copy()
-# new_forcing["sst"] += 1
-# growth_model = mag0.MAG0(params, new_forcing)
-# results = growth_model.compute()
-# print(results.head())
-# plt.plot(results.index, results.B / 1e3, color = "purple", label = "one degree higher") #kg per m^2
-#
-# new_forcing = forcing.copy()
-# new_forcing["sst"] += 2
-# growth_model = mag0.MAG0(params, new_forcing)
-# results = growth_model.compute()
-# print(results.head())
-# plt.plot(results.index, results.B / 1e3, color = "orange", label = "two degrees higher") #kg per m^2
-#
-# new_forcing = forcing.copy()
-# new_forcing["sst"] -= 1
-# growth_model = mag0.MAG0(params, new_forcing)
-# results = growth_model.compute()
-# print(results.head())
-# plt.plot(results.index, results.B / 1e3, color = "pink", label = "one degree lower") #kg per m^2
-# plt.legend()
-# plt.savefig("../../code/G-MACMODS sensitivity analysis/sst.png")
-# plt.show()
-# results
+# plt.plot(results.index, results.B / 1e3, color = "pink", label = "1.4x") #kg per m^2
+plt.legend()
+plt.savefig("../../code/G-MACMODS sensitivity analysis/sst.png")
+plt.show()
+#results
 growth_model = mag0.MAG0(params, forcing)
 results = growth_model.compute()
 
