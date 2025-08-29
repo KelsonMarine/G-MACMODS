@@ -1,4 +1,4 @@
-
+'''OLD VERSION. INSTEAD USE 2021_only_changed_sst_from_2020_macmod_test.py'''
 
 from magpy import mag0
 from magpy import mag_species

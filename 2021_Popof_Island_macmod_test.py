@@ -1,4 +1,6 @@
-'''Second iteration of G-MACMODS for Popof AK. ONLY CHANGED SST DATA FOR THE DATE, NOT OTHER ENV. PARAMETERS.
+'''
+OLD VERSION. INSTEAD USE 2021_only_changed_sst_from_2020_macmod_test.py
+Second iteration of G-MACMODS for Popof AK. ONLY CHANGED SST DATA FOR THE DATE, NOT OTHER ENV. PARAMETERS.
 For other parameters, I've just been editing the dates so it will run over the same time period.'''
 
 from magpy import mag0

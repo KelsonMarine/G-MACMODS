@@ -1,4 +1,6 @@
-'''Second iteration of G-MACMODS for Popof AK for 2020.
+'''
+OLD VERSION. INSTEAD USE 2021_only_changed_sst_from_2020_macmod_test.py
+Second iteration of G-MACMODS for Popof AK for 2020.
 Also, updating chlorophyll to the correct Popof Island.'''
 
 from magpy import mag0
